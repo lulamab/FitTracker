@@ -1,0 +1,39 @@
+FitTrack - Fitness Goal Tracker
+FitTrack is a Blazor WebAssembly application designed to help users set, log, and track their fitness goals. 
+This simple web app demonstrates core Blazor skills, including in-memory data management, form handling, and responsive design with Bootstrap.
+
+Features
+User Profile: Allows users to create and edit a basic profile with name and age.
+Workout Logging: Users can log workouts with type and duration, and view a history of logged workouts.
+Goal Setting and Progress Tracking: Users can set fitness goals (e.g., target distances) and update progress over time.
+Responsive Design: Optimized layout using Bootstrap for a seamless experience on various devices.
+Technologies Used
+Frontend: Blazor WebAssembly, Bootstrap
+Languages: C#, HTML, CSS
+Data Management: In-memory storage within Blazor (no server-side dependencies)
+
+Getting Started
+Prerequisites
+Visual Studio 2022 (or later) with the .NET 8 SDK installed.
+Basic knowledge of Blazor WebAssembly and C#.
+Installation
+Clone the Repository:
+
+bash
+
+git clone https://github.com/YourUsername/FitTrack.git
+cd FitTrack
+
+Open in Visual Studio:
+
+Open the solution file (.sln) in Visual Studio.
+Run the Application:
+In Visual Studio, set the project as the startup project.
+Click Start Debugging or press F5 to launch the app locally.
+Running Locally
+Once the app is running, open your browser and go to http://localhost:5000 (or the URL specified in your output). 
+You should see the main interface with options to:
+
+Create or edit your profile
+Log new workouts
+Set and track goals
