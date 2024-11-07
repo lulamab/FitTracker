@@ -1,37 +1,66 @@
 ﻿@page "/goals"
 @inject FitTrackerService tracker
 
-<h2>Set a Goal</h2>
-
-<div class="form-group">
-    <label>Description:</label>
-    <input @bind="goal.Description" class="form-control" />
+<h2>Set a goal</h2>
+<div class="row">
+    <div class="mb-3 col-md-5">
+        <div class="form-group">
+            <label>Description:</label>
+            <input @bind="goal.Description" class="form-control" required />
+            @if (!string.IsNullOrEmpty(validationMessage))
+            {
+                <p style="color:red;">@validationMessage</p>
+            }
+        </div>
+    </div>
 </div>
-<div class="form-group">
-    <label>Target:</label>
-    <input type="number" @bind="goal.Target" class="form-control" />
+<div class="row">
+    <div class="mb-3 col-md-5">
+        <div class="form-group">
+            <label>Target:</label>
+            <input type="number" @bind="goal.Target" class="form-control" />
+        </div>
+    </div>
 </div>
-<button class="btn btn-primary" @onclick="AddGoal">Add Goal</button>
+<div class="row mb-3">
+    <div class="form-button">
+        <button class="btn btn-primary" @onclick="AddGoal">Add goal</button>
+    </div>
+</div>
+@if (tracker.Goals.Count > 0)
+{
+    <div class="col-md-8">
+        <h3>Your goals</h3>
+        <ul class="list-group mt-4">
+            @foreach (var g in tracker.Goals)
+            {
+                <li class="list-group-item">
+                    @g.Description - Progress: @g.Progress / @g.Target
+                    <input type="number" @bind="progressToAdd" class="form-control-inline" />
+                    <button class="btn btn-sm btn-secondary" @onclick="() => UpdateGoal(g.Description)">Update progress</button>
+                </li>
+            }
+        </ul>
+    </div>
+}
 
-<h3>Your Goals</h3>
-<ul class="list-group">
-    @foreach (var g in tracker.Goals)
-    {
-        <li class="list-group-item">
-            @g.Description - Progress: @g.Progress / @g.Target
-            <input type="number" @bind="progressToAdd" class="form-control-inline" />
-            <button class="btn btn-sm btn-secondary" @onclick="() => UpdateGoal(g.Description)">Update progress</button>
-        </li>
-    }
-</ul>
 
 @code {
     private Goal goal = new Goal();
     private int progressToAdd = 0;
-
+    string validationMessage = "";
     private void AddGoal()
     {
-        tracker.AddGoal(goal);
+        string msg = "";
+        if (!string.IsNullOrWhiteSpace(goal.Description))
+        {
+            tracker.AddGoal(goal);
+        }
+        else
+        {
+            msg = "Description type can not be empty";
+        }
+        validationMessage = msg;
         goal = new Goal(); // reset form
     }
 

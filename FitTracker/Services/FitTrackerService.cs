@@ -13,7 +13,10 @@ namespace FitTracker.Services
             workout.Date = DateTime.Now;
             Workouts.Add(workout);
         }
-
+        public void RemoveWorkout(WorkoutLog workout)
+        {
+            Workouts.Remove(workout);
+        }
         public void AddGoal(Goal goal)
         {
             Goals.Add(goal);

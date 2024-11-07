@@ -1,31 +1,66 @@
 ﻿@page "/log-workout"
 @inject FitTrackerService track
 
-<h2>Log Workout</h2>
+<h2>Log workout</h2>
 
-<div class="form-group">
-    <label>Workout Type:</label>
-    <input @bind="workout.WorkoutType" class="form-control" />
+<div class="row">
+    <div class="mb-3 col-md-5">
+        <div class="form-group">
+            <label>Workout type:</label>
+            <input @bind="workout.WorkoutType" class="form-control" required/>
+            @if (!string.IsNullOrEmpty(validationMessage))
+            {
+                <p style="color:red;">@validationMessage</p>
+            }
+        </div>
+    </div>
 </div>
-<div class="form-group">
-    <label>Duration (minutes):</label>
-    <input type="number" @bind="workout.Duration" class="form-control" />
+<div class="row">
+    <div class="mb-3 col-md-5">
+        <div class="form-group">
+            <label>Duration (minutes):</label>
+            <input type="number" @bind="workout.Duration" class="form-control" />
+        </div>
+    </div>
 </div>
-<button class="btn btn-primary" @onclick="SubmitWorkout">Log Workout</button>
+<div class="row mb-3">
+    <div class="form-button">
+        <button class="btn btn-primary" @onclick="SubmitWorkout">Log workout</button>
+    </div>
+</div>
+<div class="col-md-8">
+    <ul class="list-group mt-4">
+        @foreach (var log in track.Workouts)
+        {
+            <li class="list-group-item">
+                @log.Date.ToString("dd MMM yyy") - @log.WorkoutType: @log.Duration min
+                <button class="btn btn-danger btn-sm" @onclick="() => DeleteWorkout(log)">Remove</button>
+            </li>
+        }
+    </ul>
+</div>
 
-<ul class="list-group mt-4">
-    @foreach (var log in track.Workouts)
-    {
-        <li class="list-group-item">@log.Date.ToShortDateString() - @log.WorkoutType: @log.Duration min</li>
-    }
-</ul>
 
 @code {
     private WorkoutLog workout = new WorkoutLog();
-
+    bool isworkoutEmpty;
+    string validationMessage = "";
     private void SubmitWorkout()
     {
-        track.AddWorkout(workout);
+        string msg = "";
+        if (!string.IsNullOrWhiteSpace(workout.WorkoutType))
+        {
+            track.AddWorkout(workout);
+        }
+        else
+        {
+            msg = "Workout type can not be empty";
+        }
+        validationMessage = msg;
         workout = new WorkoutLog(); // reset form
+    }
+    private void DeleteWorkout(WorkoutLog log)
+    {
+        track.RemoveWorkout(log); // Remove the workout log
     }
 }
