@@ -1,0 +1,43 @@
+﻿@page "/goals"
+@inject FitTrackerService tracker
+
+<h2>Set a Goal</h2>
+
+<div class="form-group">
+    <label>Description:</label>
+    <input @bind="goal.Description" class="form-control" />
+</div>
+<div class="form-group">
+    <label>Target:</label>
+    <input type="number" @bind="goal.Target" class="form-control" />
+</div>
+<button class="btn btn-primary" @onclick="AddGoal">Add Goal</button>
+
+<h3>Your Goals</h3>
+<ul class="list-group">
+    @foreach (var g in tracker.Goals)
+    {
+        <li class="list-group-item">
+            @g.Description - Progress: @g.Progress / @g.Target
+            <input type="number" @bind="progressToAdd" class="form-control-inline" />
+            <button class="btn btn-sm btn-secondary" @onclick="() => UpdateGoal(g.Description)">Update progress</button>
+        </li>
+    }
+</ul>
+
+@code {
+    private Goal goal = new Goal();
+    private int progressToAdd = 0;
+
+    private void AddGoal()
+    {
+        tracker.AddGoal(goal);
+        goal = new Goal(); // reset form
+    }
+
+    private void UpdateGoal(string description)
+    {
+        tracker.UpdateGoalProgress(description, progressToAdd);
+        progressToAdd = 0;
+    }
+}

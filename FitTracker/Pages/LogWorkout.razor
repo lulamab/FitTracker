@@ -1,0 +1,31 @@
+﻿@page "/log-workout"
+@inject FitTrackerService track
+
+<h2>Log Workout</h2>
+
+<div class="form-group">
+    <label>Workout Type:</label>
+    <input @bind="workout.WorkoutType" class="form-control" />
+</div>
+<div class="form-group">
+    <label>Duration (minutes):</label>
+    <input type="number" @bind="workout.Duration" class="form-control" />
+</div>
+<button class="btn btn-primary" @onclick="SubmitWorkout">Log Workout</button>
+
+<ul class="list-group mt-4">
+    @foreach (var log in track.Workouts)
+    {
+        <li class="list-group-item">@log.Date.ToShortDateString() - @log.WorkoutType: @log.Duration min</li>
+    }
+</ul>
+
+@code {
+    private WorkoutLog workout = new WorkoutLog();
+
+    private void SubmitWorkout()
+    {
+        track.AddWorkout(workout);
+        workout = new WorkoutLog(); // reset form
+    }
+}
