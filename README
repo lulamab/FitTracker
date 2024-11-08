@@ -16,13 +16,6 @@ Getting Started
 Prerequisites
 Visual Studio 2022 (or later) with the .NET 8 SDK installed.
 Basic knowledge of Blazor WebAssembly and C#.
-Installation
-Clone the Repository:
-
-bash
-
-git clone https://github.com/YourUsername/FitTrack.git
-cd FitTrack
 
 Open in Visual Studio:
 
